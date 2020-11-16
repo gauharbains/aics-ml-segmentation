@@ -300,7 +300,7 @@ class Executor(object):
             raw_img = raw_img.astype(np.uint8)
 
             reader_seg = AICSImage(row['seg'])
-            seg = reader_seg.get_image_date("ZYX", S=0, T=0, C=0)
+            seg = reader_seg.get_image_data("ZYX", S=0, T=0, C=0)
 
             score = gt_sorting(raw_img, seg)
             if score == 1:
@@ -315,8 +315,8 @@ class Executor(object):
 
                     crop_mask = crop_mask.astype(np.uint8)
                     crop_mask[crop_mask>0]=255
-                    writer = omeTifWriter.OmeTifWriter(mask_fn)
-                    writer.save(crop_mask)
+                    with OmeTiffWriter(mask_fn) as writer:
+                        writer.save(crop_mask)
                     df['mask'].iloc[index]=mask_fn
             else:
                 df['score'].iloc[index]=0
