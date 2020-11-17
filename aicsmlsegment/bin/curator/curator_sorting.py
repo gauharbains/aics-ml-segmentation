@@ -99,7 +99,7 @@ def gt_sorting(raw_img, seg):
     z_profile = np.zeros((bw.shape[0],),dtype=int)
     for zz in range(bw.shape[0]):
         z_profile[zz] = np.count_nonzero(bw[zz,:,:])
-    mid_frame = round(histogram_otsu(z_profile)*bw.shape[0]).astype(int)
+    mid_frame = int(round(histogram_otsu(z_profile)*bw.shape[0]))
 
     #create 2x4 mosaic
     out = np.zeros((2*raw_img.shape[1], 4*raw_img.shape[2], 3),dtype=np.uint8)
@@ -156,7 +156,7 @@ def create_mask(raw_img, seg):
     z_profile = np.zeros((bw.shape[0],),dtype=int)
     for zz in range(bw.shape[0]):
         z_profile[zz] = np.count_nonzero(bw[zz,:,:])
-    mid_frame = round(histogram_otsu(z_profile)*bw.shape[0]).astype(int)
+    mid_frame = int(round(histogram_otsu(z_profile)*bw.shape[0]))
 
     offset = 20
     seg_label = seg + offset # make it brighter
@@ -281,7 +281,7 @@ class Executor(object):
                     assert os.path.exists(seg_fn)
                     filewriter.writerow([fn, seg_fn , None , None])
 
-    def execute(self, args):
+    def execute(self, args): 
 
         global draw_mask
         # part 1: do sorting
