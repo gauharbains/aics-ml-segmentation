@@ -318,8 +318,10 @@ class Executor(object):
                     with OmeTiffWriter(mask_fn) as writer:
                         writer.save(crop_mask)
                     df['mask'].iloc[index]=mask_fn
+                    a = input('press enter to continue....')
             else:
                 df['score'].iloc[index]=0
+                a = input('press enter to continue....')
 
             df.to_csv(args.csv_name, index=False)
 
